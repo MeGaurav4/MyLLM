@@ -1,0 +1,21 @@
+# Example Knowledge Base
+# Replace this file with your own data.txt containing your personal information
+
+Name: John Doe
+Occupation: Software Engineer
+Location: San Francisco, CA
+
+Interests:
+- Programming
+- Machine Learning
+- Reading
+- Hiking
+
+Education:
+- BS in Computer Science from Example University
+
+Work Experience:
+- Senior Developer at Tech Corp (2020-present)
+- Software Engineer at StartUp Inc (2018-2020)
+
+Note: This is an example file. Replace it with your own personal information in data.txt

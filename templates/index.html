@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal LLM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Existing CSS code remains the same */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            background-color: #1e1e1e;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .header {
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            border-bottom: 1px solid #444;
+            position: relative;
+        }
+
+        .header i {
+            color: #ff6f61;
+            margin-right: 10px;
+        }
+
+        #chat-box {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .message.user {
+            background-color: #0084ff;
+            align-self: flex-end;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .message.user::after {
+            content: ' ';
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent #0084ff;
+        }
+
+        .message.ai {
+            background-color: #444;
+            align-self: flex-start;
+            border-radius: 15px 15px 15px 0;
+        }
+
+        .message.ai::after {
+            content: ' ';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #444 transparent transparent;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 15px;
+            background-color: #333;
+            border-top: 1px solid #444;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 50px;
+            border: 1px solid #555;
+            background-color: #222;
+            color: #ffffff;
+            outline: none;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: border 0.3s ease;
+        }
+
+        .input-container input:focus {
+            border-color: #0084ff;
+        }
+
+        .input-container button {
+            background-color: #0084ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container button:hover {
+            background-color: #005bb5;
+        }
+
+        .powered-by {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            padding: 10px;
+            background-color: #1e1e1e;
+        }
+
+        .powered-by a {
+            color: #ff6f61;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <i class="fas fa-robot"></i> My Personal LLM
+        </div>
+        <div id="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message here..." onkeydown="checkEnter(event)">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="powered-by">
+            Powered by <a href="https://gemini.google.com">Gemini API</a>
+        </div>
+    </div>
+
+    <script>
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value;
+            if (userInput.trim() !== '') {
+                var chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML += '<div class="message user"><p>' + userInput + '</p></div>';
+                document.getElementById('user-input').value = '';
+
+                // Scroll to the latest message
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'user_input=' + encodeURIComponent(userInput)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    chatBox.innerHTML += '<div class="message ai"><p>' + data.response + '</p></div>';
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

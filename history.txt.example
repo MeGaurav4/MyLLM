@@ -1,0 +1,14 @@
+# Example Conversation History
+# This file will be automatically generated when you use the application
+
+User (2024-01-01 10:00:00): Tell me about my background?
+AI (2024-01-01 10:00:01): Based on your information, you're John Doe, a Software Engineer based in San Francisco. You have a BS in Computer Science and currently work as a Senior Developer at Tech Corp. You're interested in programming, machine learning, and outdoor activities like hiking.
+
+User (2024-01-01 10:00:30): What are my interests?
+AI (2024-01-01 10:00:31): According to your profile, your interests include:
+1. Programming
+2. Machine Learning
+3. Reading
+4. Hiking
+
+Note: This is an example file. Your actual conversation history will be stored in history.txt
